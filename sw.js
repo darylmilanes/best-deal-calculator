@@ -1,14 +1,13 @@
 // Simple offline-first cache
-const CACHE = 'bvf-cache-v2';
+const CACHE = 'bvf-cache-v5'; // bump this when you change files
 const ASSETS = [
-  './',
-  './index.html',
-  './styles.css',
-  './app.js',
-  './manifest.webmanifest'
-  // Add icon files below when you place them:
-  // './icons/icon-192.png',
-  // './icons/icon-512.png'
+  '/best-value-finder/',
+  '/best-value-finder/index.html',
+  '/best-value-finder/styles.css',
+  '/best-value-finder/app.js',
+  '/best-value-finder/manifest.webmanifest',
+  '/best-value-finder/icon-192.png',
+  '/best-value-finder/icon-512.png'
 ];
 
 self.addEventListener('install', (e) => {
