@@ -71,12 +71,12 @@ function computeAll(){
     const winners = results.filter(r => r.valid && r.valueRounded === min);
     if (winners.length === 1){
       const badge = winners[0].row.querySelector('.badge');
-      badge.textContent = 'Best value';
+      badge.textContent = 'Best Deal';
       badge.classList.add('best');
     } else if (winners.length > 1){
       winners.forEach(w => {
         const badge = w.row.querySelector('.badge');
-        badge.textContent = 'Best value (tie)';
+        badge.textContent = 'Best Deal (tie)';
         badge.classList.add('tie');
       });
     }
