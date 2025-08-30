@@ -6,10 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#006666" />
 
-  <!-- PWA manifest -->
   <link rel="manifest" href="manifest.webmanifest" />
-
-  <!-- iOS specific icon support (icons in root) -->
   <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
   <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -27,7 +24,7 @@
 
     <section class="table">
       <div class="table-head">
-        <div>Net weight (g)</div>
+        <div>Net weight (grams)</div>
         <div>Price (₱)</div>
         <div>₱ / 100g</div>
       </div>
@@ -37,12 +34,15 @@
         <div class="cell">
           <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 1 net weight in grams">
         </div>
-        <div class="cell">
+        <div class="cell price">
+          <span class="peso">₱</span>
           <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 1 price in pesos">
         </div>
         <div class="cell result">
-          <span class="resultValue" aria-live="polite"></span>
-          <span class="badge" aria-hidden="true"></span>
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
         </div>
       </div>
 
@@ -50,12 +50,15 @@
         <div class="cell">
           <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 2 net weight in grams">
         </div>
-        <div class="cell">
+        <div class="cell price">
+          <span class="peso">₱</span>
           <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 2 price in pesos">
         </div>
         <div class="cell result">
-          <span class="resultValue" aria-live="polite"></span>
-          <span class="badge" aria-hidden="true"></span>
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
         </div>
       </div>
 
@@ -63,12 +66,15 @@
         <div class="cell">
           <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 3 net weight in grams">
         </div>
-        <div class="cell">
+        <div class="cell price">
+          <span class="peso">₱</span>
           <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 3 price in pesos">
         </div>
         <div class="cell result">
-          <span class="resultValue" aria-live="polite"></span>
-          <span class="badge" aria-hidden="true"></span>
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
         </div>
       </div>
 
@@ -76,12 +82,15 @@
         <div class="cell">
           <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 4 net weight in grams">
         </div>
-        <div class="cell">
+        <div class="cell price">
+          <span class="peso">₱</span>
           <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 4 price in pesos">
         </div>
         <div class="cell result">
-          <span class="resultValue" aria-live="polite"></span>
-          <span class="badge" aria-hidden="true"></span>
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
         </div>
       </div>
 
@@ -89,26 +98,26 @@
         <div class="cell">
           <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 5 net weight in grams">
         </div>
-        <div class="cell">
+        <div class="cell price">
+          <span class="peso">₱</span>
           <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 5 price in pesos">
         </div>
         <div class="cell result">
-          <span class="resultValue" aria-live="polite"></span>
-          <span class="badge" aria-hidden="true"></span>
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
         </div>
       </div>
     </section>
 
-</section>
+    <div class="clear-wrap">
+      <button id="clearBtn" type="button">Clear All</button>
+    </div>
 
-<!-- Clear button row (own grid row) -->
-<div class="clear-wrap">
-  <button id="clearBtn" type="button">Clear All</button>
-</div>
-
-<footer class="note">
-  Use <strong>net weight</strong> in grams. Lowest ₱/100g gets “Best value”.
-</footer>
+    <footer class="note">
+      Use <strong>net weight</strong> in grams. Lowest ₱/100g gets “Best value”.
+    </footer>
   </main>
 
   <script src="app.js"></script>
