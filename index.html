@@ -35,10 +35,10 @@
       <!-- Five fixed rows -->
       <div class="row" data-row="1">
         <div class="cell">
-          <input type="number" inputmode="decimal" min="0" step="any" placeholder="e.g., 890" class="g-input" aria-label="Item 1 net weight in grams">
+          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 1 net weight in grams">
         </div>
         <div class="cell">
-          <input type="number" inputmode="decimal" min="0" step="any" placeholder="e.g., 299" class="p-input" aria-label="Item 1 price in pesos">
+          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 1 price in pesos">
         </div>
         <div class="cell result">
           <span class="resultValue" aria-live="polite"></span>
@@ -48,10 +48,10 @@
 
       <div class="row" data-row="2">
         <div class="cell">
-          <input type="number" inputmode="decimal" min="0" step="any" placeholder="e.g., 250" class="g-input" aria-label="Item 2 net weight in grams">
+          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 2 net weight in grams">
         </div>
         <div class="cell">
-          <input type="number" inputmode="decimal" min="0" step="any" placeholder="e.g., 199" class="p-input" aria-label="Item 2 price in pesos">
+          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 2 price in pesos">
         </div>
         <div class="cell result">
           <span class="resultValue" aria-live="polite"></span>
@@ -99,9 +99,16 @@
       </div>
     </section>
 
-    <footer class="note">
-      Use <strong>net weight</strong> in grams. Lowest ₱/100g gets “Best value”.
-    </footer>
+</section>
+
+<!-- Clear button row (own grid row) -->
+<div class="clear-wrap">
+  <button id="clearBtn" type="button">Clear All</button>
+</div>
+
+<footer class="note">
+  Use <strong>net weight</strong> in grams. Lowest ₱/100g gets “Best value”.
+</footer>
   </main>
 
   <script src="app.js"></script>
