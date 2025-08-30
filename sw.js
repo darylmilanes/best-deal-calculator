@@ -1,5 +1,5 @@
 // Simple offline-first cache
-const CACHE = 'bvf-cache-v7'; // bump this when you change files
+const CACHE = 'bvf-cache-v8'; // bump this when you change files
 const ASSETS = [
   '/best-value-finder/',
   '/best-value-finder/index.html',
