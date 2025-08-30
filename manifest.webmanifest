@@ -1,8 +1,8 @@
 {
-  "name": "Best Value Finder",
-  "short_name": "Best Value",
-  "start_url": "/best-value-finder/",
-  "scope": "/best-value-finder/",
+  "name": "Best Deal Calculator",
+  "short_name": "Best Deal",
+  "start_url": "/best-deal-calculator/",
+  "scope": "/best-deal-calculator/",
   "display": "standalone",
   "background_color": "#fafeff",
   "theme_color": "#006666",
