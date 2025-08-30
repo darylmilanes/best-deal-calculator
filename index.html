@@ -1,125 +1,199 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Best Value Finder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#006666" />
+:root{
+  --bg:#fafeff;
+  --text:#4a4a4a;
+  --accent:#006666;
+  --muted:#5a6b73;
+  --ok:#006666;
+  --border:rgba(0,0,0,0.10);
+  --ring:rgba(0,102,102,0.14);
+  --vh:100vh;
+}
 
-  <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
-  <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Best Value Finder">
+html, body { height: 100%; overscroll-behavior: none; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans";
+  font-size: 16px;
+  line-height: 1.25;
+  overflow: hidden;
+}
 
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <main class="app-shell" id="appShell">
-    <header class="app-header">
-      <h1>Best Value Finder</h1>
-      <p class="sub">Calculates ₱ per 100g automatically</p>
-    </header>
+/* 4 rows: header | table | clear | footnote */
+.app-shell{
+  position: relative;
+  height: var(--vh);
+  max-width: 420px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  gap: 8px;
+  padding: 14px;
+  box-sizing: border-box;
+}
 
-    <section class="table">
-      <div class="table-head">
-        <div>Net weight (grams)</div>
-        <div>Price (₱)</div>
-        <div>₱ / 100g</div>
-      </div>
+@media (min-width: 600px){
+  .app-shell{
+    border-radius: 22px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.6);
+  }
+}
 
-      <!-- Five fixed rows -->
-      <div class="row" data-row="1">
-        <div class="cell">
-          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 1 net weight in grams">
-        </div>
-        <div class="cell price">
-          <span class="peso">₱</span>
-          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 1 price in pesos">
-        </div>
-        <div class="cell result">
-          <div class="resultBox">
-            <span class="resultValue" aria-live="polite"></span>
-            <span class="badge" aria-hidden="true"></span>
-          </div>
-        </div>
-      </div>
+/* Header */
+.app-header{
+  text-align:center;
+  padding: 10px 0;
+  border-bottom: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 12px;
+}
+.app-header h1{ margin: 0; font-size: 20px; font-weight: 700; color: var(--bg); }
+.app-header .sub{ margin: 4px 0 0; font-size: 13px; color: var(--bg); opacity: 0.9; }
 
-      <div class="row" data-row="2">
-        <div class="cell">
-          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 2 net weight in grams">
-        </div>
-        <div class="cell price">
-          <span class="peso">₱</span>
-          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 2 price in pesos">
-        </div>
-        <div class="cell result">
-          <div class="resultBox">
-            <span class="resultValue" aria-live="polite"></span>
-            <span class="badge" aria-hidden="true"></span>
-          </div>
-        </div>
-      </div>
+/* Table */
+.table{
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 8px;
+  overflow: hidden;
+  padding: 8px;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+/* Make column 3 (results) wider */
+.table-head, .row{
+  display: grid;
+  grid-template-columns: 70px 90px 155px; /* grams | price | results */
+  gap: 8px;
+  align-items: center;
+}
 
-      <div class="row" data-row="3">
-        <div class="cell">
-          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 3 net weight in grams">
-        </div>
-        <div class="cell price">
-          <span class="peso">₱</span>
-          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 3 price in pesos">
-        </div>
-        <div class="cell result">
-          <div class="resultBox">
-            <span class="resultValue" aria-live="polite"></span>
-            <span class="badge" aria-hidden="true"></span>
-          </div>
-        </div>
-      </div>
 
-      <div class="row" data-row="4">
-        <div class="cell">
-          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 4 net weight in grams">
-        </div>
-        <div class="cell price">
-          <span class="peso">₱</span>
-          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 4 price in pesos">
-        </div>
-        <div class="cell result">
-          <div class="resultBox">
-            <span class="resultValue" aria-live="polite"></span>
-            <span class="badge" aria-hidden="true"></span>
-          </div>
-        </div>
-      </div>
 
-      <div class="row" data-row="5">
-        <div class="cell">
-          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 5 net weight in grams">
-        </div>
-        <div class="cell price">
-          <span class="peso">₱</span>
-          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 5 price in pesos">
-        </div>
-        <div class="cell result">
-          <div class="resultBox">
-            <span class="resultValue" aria-live="polite"></span>
-            <span class="badge" aria-hidden="true"></span>
-          </div>
-        </div>
-      </div>
-    </section>
+.table-head{
+  color: var(--muted);
+  font-size: 12px;
+  padding: 2px 4px 6px 4px;
+  user-select: none;
+}
 
-    <div class="clear-wrap">
-      <button id="clearBtn" type="button">Clear All</button>
-    </div>
+.row{
+  padding: 8px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid var(--border);
+}
 
-    <footer class="note">
-      Use <strong>net weight</strong> in grams. Lowest ₱/100g gets “Best value”.
-    </footer>
-  </main>
+.cell{ display: flex; align-items: center; min-height: 40px; }
 
-  <script src="app.js"></script>
-</body>
-</html>
+/* Inputs */
+input[type="number"]{
+  width: 100%;
+  height: 40px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 16px;
+  outline: none;
+  background: #fff;
+}
+input[type="number"]:focus{ border-color: var(--accent); box-shadow: 0 0 0 4px var(--ring); }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+
+/* Price prefix ₱ (keeps input numeric, adds visual ₱, aligns under header) */
+.cell.price{ position: relative; }
+.cell.price .peso{
+  position: absolute;
+  left: 10px;
+  font-size: 15px;
+  color: var(--muted);
+  pointer-events: none;
+}
+.cell.price .p-input{
+  padding-left: 24px; /* room for ₱ */
+}
+
+/* Result: a wider "input-like" box that also holds the badge */
+.result{ justify-content: flex-start; }
+/* Result box layout */
+.resultBox{
+  width: 100%;
+  min-height: 40px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background:#fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;   /* 👈 keep items grouped, not pushed apart */
+}
+
+/* Number result flexes, leaves room for badge */
+.resultValue{
+  flex: 1;                /* 👈 take up remaining space */
+  font-variant-numeric: tabular-nums;
+  min-width: 60px;
+}
+
+/* Badge stays inside box */
+.badge{
+  flex-shrink: 0;          /* 👈 don’t shrink into overflow */
+  max-width: 70px;         /* 👈 ensures it never exceeds box */
+  text-align: center;
+  white-space: nowrap;     /* 👈 keep text in one line */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 👈 if too long, show … */
+  min-width: 60px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: transparent;
+}
+.badge.best{ background: var(--ok); }
+.badge.tie{ background: var(--ok); opacity: .9; }
+
+
+/* Clear button row */
+.clear-wrap { text-align: center; }
+#clearBtn{
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+#clearBtn:active{ opacity: .85; }
+
+/* Footer */
+.note{
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  user-select: none;
+  padding-top: 4px;
+}
+.note strong{ color: var(--text); }
+.resultBox{ display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+.resultValue{ flex: 1; min-width: 72px; }  /* lets the badge have room */
+.badge{ flex-shrink: 0; }                   /* prevents the pill from squishing */
+.table-head div:nth-child(1){ text-align: center; padding-left: 4px; }   /* Net weight */
+.table-head div:nth-child(2){ text-align: center; }                   /* Price */
+.table-head div:nth-child(3){ text-align: center; padding-right: 5px; }/* ₱ / 100g */
