@@ -1,0 +1,181 @@
+:root{
+  --bg:#fafeff;      /* light background */
+  --text:#4a4a4a;    /* dark grey text */
+  --accent:#006666;  /* teal accent */
+  --muted:#5a6b73;
+  --ok:#006666;      /* use teal for "Best value" badge */
+  --border:rgba(0,0,0,0.10);
+  --ring:rgba(0,102,102,0.14);
+  --vh:100vh;
+}
+
+/* Lock page — no scroll, no jump */
+html, body {
+  height: 100%;
+  overscroll-behavior: none;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 16px; /* prevents iOS zoom on inputs */
+  line-height: 1.25;
+  overflow: hidden; /* fully lock scroll */
+}
+
+/* Mobile frame that also shows on desktop */
+.app-shell{
+  position: relative;
+  height: var(--vh);
+  max-width: 420px;               /* fixed mobile width even on desktop */
+  margin: 0 auto;                 /* center on desktop */
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 8px;
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+/* Optional subtle frame on desktop */
+@media (min-width: 600px){
+  .app-shell{
+    border-radius: 22px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.6);
+  }
+}
+
+/* Header (Best Value Finder) */
+.app-header{
+  text-align:center;
+  padding: 10px 0;
+  border-bottom: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 12px;
+}
+.app-header h1{
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--bg);
+}
+.app-header .sub{
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--bg);
+  opacity: 0.9;
+}
+
+/* Table */
+.table{
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 8px;
+  overflow: hidden;               /* no internal scroll */
+  padding: 8px;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.table-head, .row{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.table-head{
+  color: var(--muted);
+  font-size: 12px;
+  padding: 2px 4px 6px 4px;
+  user-select: none;
+}
+
+.row{
+  padding: 8px;
+  border-radius: 12px;
+  background: white;
+  border: 1px solid var(--border);
+}
+
+.cell{
+  display: flex;
+  align-items: center;
+  min-height: 40px;  /* fixed height to avoid shifts */
+}
+
+/* Inputs */
+input[type="number"]{
+  width: 100%;
+  height: 40px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 16px; /* keep >=16 to avoid iOS zoom */
+  outline: none;
+  background: #fff;
+}
+input[type="number"]:focus{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+/* Remove arrows (spinners) on number inputs */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+/* Result cell: reserve space for value + badge so layout never jumps */
+.result{
+  justify-content: space-between;
+  gap: 6px;
+}
+.resultValue{
+  font-variant-numeric: tabular-nums;
+  min-width: 84px;     /* reserve width for values like "₱1234.56" */
+  display: inline-block;
+}
+
+/* Badge (always present but empty unless best) */
+.badge{
+  min-width: 88px;      /* reserve pill area */
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  background: transparent;      /* empty by default */
+}
+
+/* When best */
+.badge.best{
+  background: var(--ok);
+}
+.badge.tie{
+  background: var(--ok);
+  opacity: 0.90;
+}
+
+/* Footer note */
+.note{
+  font-size: 12px;
+  color: var(--muted);
+  text-align: center;
+  user-select: none;
+  padding-top: 4px;
+}
+.note strong{ color: var(--text); }
