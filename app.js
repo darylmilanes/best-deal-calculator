@@ -1,138 +1,125 @@
-/* Keyboard-safe viewport height to avoid layout jumps */
-(function setVh() {
-  const set = () => {
-    const vh = window.innerHeight + "px";
-    document.documentElement.style.setProperty('--vh', vh);
-  };
-  set();
-  window.addEventListener('resize', set);
-  window.addEventListener('orientationchange', set);
-})();
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Best Deal Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#006666" />
 
-const rows = Array.from(document.querySelectorAll('.row'));
-const NUM_DECIMALS = 2;
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+  <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Best Deal Calculator">
 
-/* Restore saved values */
-(function restore(){
-  try{
-    const saved = JSON.parse(localStorage.getItem('bvf_pp100g_v1') || '[]');
-    rows.forEach((row, idx) => {
-      const g = row.querySelector('.g-input');
-      const p = row.querySelector('.p-input');
-      if(saved[idx]){
-        if(saved[idx].g !== undefined) g.value = saved[idx].g;
-        if(saved[idx].p !== undefined) p.value = saved[idx].p;
-      }
-    });
-  }catch{}
-})();
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell" id="appShell">
+    <header class="app-header">
+      <h1>Best Deal Calculator</h1>
+      <p class="sub">Calculates ₱ per 100g automatically</p>
+    </header>
 
-/* Attach handlers */
-rows.forEach(row => {
-  const g = row.querySelector('.g-input');
-  const p = row.querySelector('.p-input');
-  const onInput = () => computeAll();
-  g.addEventListener('input', onInput, {passive:true});
-  p.addEventListener('input', onInput, {passive:true});
-});
+    <section class="table">
+      <div class="table-head">
+        <div>Net weight (grams)</div>
+        <div>Price (₱)</div>
+        <div>₱ / 100g</div>
+      </div>
 
-document.addEventListener('DOMContentLoaded', function() {
-  computeAll();
-});
+      <!-- Five fixed rows -->
+      <div class="row" data-row="1">
+        <div class="cell">
+          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 1 net weight in grams">
+        </div>
+        <div class="cell price">
+          <span class="peso">₱</span>
+          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 1 price in pesos">
+        </div>
+        <div class="cell result">
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
 
-/* Compute logic */
-function computeAll(){
-  const results = [];
+      <div class="row" data-row="2">
+        <div class="cell">
+          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 2 net weight in grams">
+        </div>
+        <div class="cell price">
+          <span class="peso">₱</span>
+          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 2 price in pesos">
+        </div>
+        <div class="cell result">
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
 
-  rows.forEach(row => {
-    const grams = parseFloat(row.querySelector('.g-input').value);
-    const price = parseFloat(row.querySelector('.p-input').value);
-    const out = row.querySelector('.resultValue');
+      <div class="row" data-row="3">
+        <div class="cell">
+          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 3 net weight in grams">
+        </div>
+        <div class="cell price">
+          <span class="peso">₱</span>
+          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 3 price in pesos">
+        </div>
+        <div class="cell result">
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
 
-    out.textContent = '';
-    results.push({ row, valueRounded: Infinity, valid: false });
+      <div class="row" data-row="4">
+        <div class="cell">
+          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 4 net weight in grams">
+        </div>
+        <div class="cell price">
+          <span class="peso">₱</span>
+          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 4 price in pesos">
+        </div>
+        <div class="cell result">
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
 
-    if (isFinite(grams) && grams > 0 && isFinite(price) && price >= 0){
-      const per100 = (price / grams) * 100;
-      const rounded = Math.round(per100 * 100) / 100;
-      out.textContent = `₱${rounded.toFixed(NUM_DECIMALS)}`;
-      const slot = results[results.length - 1];
-      slot.valueRounded = rounded;
-      slot.valid = true;
-    }
-  });
+      <div class="row" data-row="5">
+        <div class="cell">
+          <input type="number" inputmode="decimal" min="0" step="any" class="g-input" aria-label="Item 5 net weight in grams">
+        </div>
+        <div class="cell price">
+          <span class="peso">₱</span>
+          <input type="number" inputmode="decimal" min="0" step="any" class="p-input" aria-label="Item 5 price in pesos">
+        </div>
+        <div class="cell result">
+          <div class="resultBox">
+            <span class="resultValue" aria-live="polite"></span>
+            <span class="badge" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  updateResults(results);
+    <div class="clear-wrap">
+      <button id="clearBtn" type="button">Clear All</button>
+    </div>
 
-  persist();
-}
+    <footer class="note">
+      Use <strong>net weight</strong> in grams. Lowest ₱/100g gets “Best Deal”.
+    </footer>
+  </main>
 
-function updateResults(results) {
-  // Find best value
-  let min = Infinity;
-  let minIndexes = [];
-  results.forEach((res, i) => {
-    if (res.valid && res.valueRounded < min) {
-      min = res.valueRounded;
-      minIndexes = [i];
-    } else if (res.valid && res.valueRounded === min) {
-      minIndexes.push(i);
-    }
-  });
-
-  // Update UI
-  rows.forEach((row, i) => {
-    row.classList.remove('best', 'tie');
-    const resultBox = row.querySelector('.resultBox');
-    const badge = row.querySelector('.badge');
-    if (results[i].valid) {
-      row.querySelector('.resultValue').textContent = `₱${results[i].valueRounded.toFixed(NUM_DECIMALS)}`;
-      if (minIndexes.includes(i)) {
-        if (minIndexes.length > 1) {
-          row.classList.add('tie');
-        } else {
-          row.classList.add('best');
-        }
-      }
-    } else {
-      row.querySelector('.resultValue').textContent = '';
-    }
-    if (badge) badge.textContent = '';
-    if (resultBox) resultBox.classList.remove('best', 'tie');
-  });
-}
-
-function persist(){
-  const data = rows.map(row => ({
-    g: row.querySelector('.g-input').value || '',
-    p: row.querySelector('.p-input').value || ''
-  }));
-  try{
-    localStorage.setItem('bvf_pp100g_v1', JSON.stringify(data));
-  }catch{}
-}
-
-computeAll();
-
-/* PWA registration */
-if ('serviceWorker' in navigator){
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
-  });
-}
-
-/* Clear button functionality */
-const clearBtn = document.getElementById('clearBtn');
-if (clearBtn){
-  clearBtn.addEventListener('click', () => {
-    rows.forEach(row => {
-      row.querySelector('.g-input').value = '';
-      row.querySelector('.p-input').value = '';
-      row.querySelector('.resultValue').textContent = '';
-      const badge = row.querySelector('.badge');
-      badge.textContent = '';
-      badge.classList.remove('best', 'tie');
-    });
-    localStorage.removeItem('bvf_pp100g_v1');
-  });
-}
+  <script src="app.js"></script>
+</body>
+</html>
