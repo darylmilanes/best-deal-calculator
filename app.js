@@ -36,6 +36,10 @@ rows.forEach(row => {
   p.addEventListener('input', onInput, {passive:true});
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+  computeAll();
+});
+
 /* Compute logic */
 function computeAll(){
   const results = [];
@@ -58,31 +62,45 @@ function computeAll(){
     }
   });
 
-  const validValues = results.filter(r => r.valid).map(r => r.valueRounded);
-  const min = validValues.length ? Math.min(...validValues) : Infinity;
-
-  rows.forEach(row => {
-    const badge = row.querySelector('.badge');
-    badge.textContent = '';
-    badge.classList.remove('best', 'tie');
-  });
-
-  if (min !== Infinity){
-    const winners = results.filter(r => r.valid && r.valueRounded === min);
-    if (winners.length === 1){
-      const badge = winners[0].row.querySelector('.badge');
-      badge.textContent = 'Best Deal';
-      badge.classList.add('best');
-    } else if (winners.length > 1){
-      winners.forEach(w => {
-        const badge = w.row.querySelector('.badge');
-        badge.textContent = 'Best Deal (tie)';
-        badge.classList.add('tie');
-      });
-    }
-  }
+  updateResults(results);
 
   persist();
+}
+
+function updateResults(results) {
+  // Find best value
+  let min = Infinity;
+  let minIndexes = [];
+  results.forEach((res, i) => {
+    if (res.valid && res.valueRounded < min) {
+      min = res.valueRounded;
+      minIndexes = [i];
+    } else if (res.valid && res.valueRounded === min) {
+      minIndexes.push(i);
+    }
+  });
+
+  // Update UI
+  rows.forEach((row, i) => {
+    const resultBox = row.querySelector('.resultBox');
+    const badge = row.querySelector('.badge');
+    if (results[i].valid) {
+      row.querySelector('.resultValue').textContent = `₱${results[i].valueRounded.toFixed(NUM_DECIMALS)}`;
+      badge.textContent = '';
+      resultBox.classList.remove('best', 'tie');
+      if (minIndexes.includes(i)) {
+        if (minIndexes.length > 1) {
+          resultBox.classList.add('tie');
+        } else {
+          resultBox.classList.add('best');
+        }
+      }
+    } else {
+      row.querySelector('.resultValue').textContent = '';
+      badge.textContent = '';
+      resultBox.classList.remove('best', 'tie');
+    }
+  });
 }
 
 function persist(){
