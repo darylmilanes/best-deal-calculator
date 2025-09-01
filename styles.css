@@ -59,17 +59,15 @@ body {
     grid-template-columns: 1fr 1fr 1fr !important;
     gap: 4px;
   }
-  .cell, .resultBox {
+  .resultBox {
     height: 40px;
     min-height: 40px;
-    box-sizing: border-box;
-  }
-  .resultBox {
     width: 100%;
     max-width: 100%;
     min-width: 0;
     padding: 6px 6px;
     flex-wrap: wrap;
+    box-sizing: border-box;
   }
   .resultValue {
     min-width: 0;
@@ -129,7 +127,7 @@ body {
   border: 1px solid var(--border);
 }
 
-.cell{ display: flex; align-items: center; min-height: 40px; }
+.cell{ display: flex; align-items: center; }
 
 /* Inputs */
 input[type="number"]{
