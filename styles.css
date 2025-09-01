@@ -56,7 +56,7 @@ body {
     padding: 4px;
   }
   .table-head, .row {
-    grid-template-columns: 100px 100px 70px !important;
+    grid-template-columns: 100px 100px 90px !important;
     gap: 4px;
   }
   .resultBox {
