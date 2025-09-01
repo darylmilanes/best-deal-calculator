@@ -59,15 +59,17 @@ body {
     grid-template-columns: 1fr 1fr 1fr !important;
     gap: 4px;
   }
+  .cell, .resultBox {
+    height: 40px;
+    min-height: 40px;
+    box-sizing: border-box;
+  }
   .resultBox {
     width: 100%;
     max-width: 100%;
-    box-sizing: border-box;
     min-width: 0;
     padding: 6px 6px;
     flex-wrap: wrap;
-    min-height: 40px;
-    height: 40px;
   }
   .resultValue {
     min-width: 0;
