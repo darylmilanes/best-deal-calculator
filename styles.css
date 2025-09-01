@@ -66,6 +66,8 @@ body {
     min-width: 0;
     padding: 6px 6px;
     flex-wrap: wrap;
+    min-height: 40px;
+    height: 40px;
   }
   .resultValue {
     min-width: 0;
