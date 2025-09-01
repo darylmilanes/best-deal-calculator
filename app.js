@@ -82,24 +82,23 @@ function updateResults(results) {
 
   // Update UI
   rows.forEach((row, i) => {
+    row.classList.remove('best', 'tie');
     const resultBox = row.querySelector('.resultBox');
     const badge = row.querySelector('.badge');
     if (results[i].valid) {
       row.querySelector('.resultValue').textContent = `₱${results[i].valueRounded.toFixed(NUM_DECIMALS)}`;
-      badge.textContent = '';
-      resultBox.classList.remove('best', 'tie');
       if (minIndexes.includes(i)) {
         if (minIndexes.length > 1) {
-          resultBox.classList.add('tie');
+          row.classList.add('tie');
         } else {
-          resultBox.classList.add('best');
+          row.classList.add('best');
         }
       }
     } else {
       row.querySelector('.resultValue').textContent = '';
-      badge.textContent = '';
-      resultBox.classList.remove('best', 'tie');
     }
+    if (badge) badge.textContent = '';
+    if (resultBox) resultBox.classList.remove('best', 'tie');
   });
 }
 
