@@ -1,8 +1,8 @@
 {
   "name": "Best Deal Calculator",
   "short_name": "Best Deal",
-  "start_url": "/best-deal-calculator/",
-  "scope": "/best-deal-calculator/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#fafeff",
   "theme_color": "#006666",
