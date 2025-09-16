@@ -1,24 +1,25 @@
-// Simple offline-first cache
-const CACHE = 'bvf-cache-v8'; // bump this when you change files
+// Offline-first service worker with navigation fallback
+const CACHE = 'bvf-cache-v1'; // bump when assets change
 const ASSETS = [
-  '/best-value-finder/',
-  '/best-value-finder/index.html',
-  '/best-value-finder/styles.css',
-  '/best-value-finder/app.js',
-  '/best-value-finder/manifest.webmanifest',
-  '/best-value-finder/icon-192.png',
-  '/best-value-finder/icon-512.png'
+  './',
+  './index.html',
+  './styles.css',
+  './app.js',
+  './manifest.webmanifest',
+  './icon-192.png',
+  './icon-512.png',
+  './offline.html'
 ];
 
-self.addEventListener('install', (e) => {
-  e.waitUntil(
+self.addEventListener('install', (event) => {
+  event.waitUntil(
     caches.open(CACHE).then(cache => cache.addAll(ASSETS))
   );
   self.skipWaiting();
 });
 
-self.addEventListener('activate', (e) => {
-  e.waitUntil(
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(keys.map(k => (k === CACHE ? null : caches.delete(k))))
     )
@@ -26,9 +27,29 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-self.addEventListener('fetch', (e) => {
-  const req = e.request;
-  e.respondWith(
-    caches.match(req).then(cached => cached || fetch(req))
+// Fetch handler: prefer cache, then network; for navigation requests, serve index.html (SPA fallback)
+self.addEventListener('fetch', (event) => {
+  const req = event.request;
+  // Navigation requests -> return cached index.html for SPA-style fallback
+  if (req.mode === 'navigate') {
+    event.respondWith(
+      caches.match('./index.html').then(cached => cached || fetch('./index.html').catch(() => caches.match('./offline.html')))
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(req).then(cached => cached || fetch(req).then(resp => {
+      if (req.method === 'GET') {
+        caches.open(CACHE).then(cache => cache.put(req, resp.clone()));
+      }
+      return resp;
+    }).catch(() => {
+      // If request expects HTML, serve the offline fallback
+      if (req.headers.get('accept') && req.headers.get('accept').includes('text/html')) {
+        return caches.match('./offline.html');
+      }
+      return cached;
+    }))
   );
 });
