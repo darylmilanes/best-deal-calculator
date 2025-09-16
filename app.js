@@ -138,6 +138,20 @@ const installBtn = document.getElementById('installBtn');
 const installMsg = document.getElementById('installMsg');
 function showInstallUI() {
   if (!installBtn || !deferredPrompt) return;
+  // Localize label: English default, Filipino fallback
+  const userLang = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+  const labels = {
+    en: 'Add to Home screen',
+    'en-us': 'Add to Home screen',
+    fil: 'Idagdag sa Home screen',
+    tl: 'Idagdag sa Home screen',
+    'tl-ph': 'Idagdag sa Home screen',
+    ph: 'Idagdag sa Home screen'
+  };
+  const label = labels[userLang] || labels[userLang.split('-')[0]] || labels.en;
+  const labelNode = installBtn.querySelector('.install-label');
+  if (labelNode) labelNode.textContent = label;
+  installBtn.setAttribute('aria-label', label);
   installBtn.hidden = false;
   installBtn.removeAttribute('aria-hidden');
   installBtn.addEventListener('click', async function onInstallClick() {
