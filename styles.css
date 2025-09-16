@@ -107,6 +107,14 @@ body {
 #installBtn:active{ opacity:.9 }
 #installMsg{ color: rgba(255,255,255,0.95); font-size:13px }
 
+/* Icon + label inside install button */
+.install-icon{ display:inline-flex; align-items:center; justify-content:center; margin-right:8px; color:var(--accent) }
+.install-label{ font-weight:700; font-size:14px; color:var(--accent) }
+
+@media (max-width:420px){
+  .install-label{ display:none } /* save space on small screens */
+}
+
 /* Table */
 .table{
   display: grid;
